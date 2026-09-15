@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>DriftGuard AI</title>
+
+
+<!-- ==============================
+     LEAFLET CSS
+=============================== -->
+
+<link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+>
+
+
+<!-- ==============================
+     OUR CSS
+=============================== -->
+
+<link
+    rel="stylesheet"
+    href="css/style.css"
+>
+
+
+</head>
+
+<body>
+
+
+<!-- =========================================
+     SIDEBAR
+========================================== -->
+
+<aside class="sidebar">
+
+
+    <!-- LOGO -->
+
+    <div class="logo-section">
+
+        <img
+            src="assets/driftguard-logo.png"
+            alt="DriftGuard AI"
+            class="driftguard-logo"
+        >
+
+        <div class="brand-text">
+
+            <h2>AI Navigation</h2>
+
+            <span>Navigate without limits</span>
+
+        </div>
+
+    </div>
+
+
+    <!-- SIDEBAR NAVIGATION -->
+
+    <nav>
+
+        <!-- DASHBOARD -->
+
+        <a
+            href="#"
+            class="nav-link active"
+            data-page="dashboard"
+        >
+
+            <span>⌂</span>
+
+            Dashboard
+
+        </a>
+
+
+        <!-- NAVIGATION -->
+
+        <a
+            href="#"
+            class="nav-link"
+            data-page="navigation"
+        >
+
+            <span>◉</span>
+
+            Navigation
+
+        </a>
+
+
+        <!-- ALERTS -->
+
+        <a
+            href="#"
+            class="nav-link"
+            data-page="alerts"
+        >
+
+            <span>⚠</span>
+
+            Alerts
+
+        </a>
+
+
+        <!-- ANALYTICS -->
+
+        <a
+            href="#"
+            class="nav-link"
+            data-page="analytics"
+        >
+
+            <span>◈</span>
+
+            Analytics
+
+        </a>
+
+
+        <!-- SETTINGS -->
+
+        <a
+            href="#"
+            class="nav-link"
+            data-page="settings"
+        >
+
+            <span>⚙</span>
+
+            Settings
+
+        </a>
+
+    </nav>
+
+
+    <!-- SYSTEM STATUS -->
+
+    <div class="sidebar-status">
+
+        <span class="status-dot"></span>
+
+        <div>
+
+            <strong>
+                System Online
+            </strong>
+
+            <small>
+                Ready for navigation
+            </small>
+
+        </div>
+
+    </div>
+
+
+</aside>
+
+
+<!-- =========================================
+     MAIN CONTENT
+========================================== -->
+
+<main class="main-content">
+
+
+    <!-- =====================================
+         TOP HEADER
+    ====================================== -->
+
+    <header class="topbar">
+
+        <div>
+
+            <p class="section-label">
+                NAVIGATION DASHBOARD
+            </p>
+
+            <h1 id="pageTitle">
+                Navigation You Can Trust
+            </h1>
+
+        </div>
+
+
+        <!-- LIVE STATUS -->
+
+        <div class="status-area">
+
+            <div class="live-indicator">
+
+                <span></span>
+
+                LIVE
+
+            </div>
+
+
+            <div
+                class="navigation-status-toggle"
+                id="navigationMode"
+            >
+
+                <span class="mode-dot"></span>
+
+                <span id="navigationModeText">
+                    GPS NAVIGATION
+                </span>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================
+         DASHBOARD
+    ====================================== -->
+
+    <section
+        id="dashboard"
+        class="page active-page"
+    >
+
+
+        <!-- FOUR DASHBOARD CARDS -->
+
+        <section class="info-grid">
+
+
+            <!-- CURRENT SPEED -->
+
+            <div class="info-card">
+
+                <div class="card-icon">
+                    🚗
+                </div>
+
+                <div>
+
+                    <span>
+                        CURRENT SPEED
+                    </span>
+
+                    <h3>
+
+                        <strong id="speedValue">
+                            0
+                        </strong>
+
+                        km/h
+
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <!-- DISTANCE -->
+
+            <div class="info-card">
+
+                <div class="card-icon">
+                    📍
+                </div>
+
+                <div>
+
+                    <span>
+                        DISTANCE
+                    </span>
+
+                    <h3>
+
+                        <strong id="distanceValue">
+                            0.00
+                        </strong>
+
+                        km
+
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <!-- GPS STATUS -->
+
+            <div class="info-card">
+
+                <div class="card-icon">
+                    🛰️
+                </div>
+
+                <div>
+
+                    <span>
+                        GPS STATUS
+                    </span>
+
+                    <h3 id="gpsStatus">
+                        Waiting
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <!-- DRIFTGUARD MODE -->
+
+            <div class="info-card">
+
+                <div class="card-icon">
+                    🛡️
+                </div>
+
+                <div>
+
+                    <span>
+                        DRIFTGUARD MODE
+                    </span>
+
+                    <h3 id="driftMode">
+                        STANDBY
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- =================================
+             LIVE NAVIGATION MAP
+        ================================== -->
+
+        <section class="map-section">
+
+
+            <!-- MAP HEADER -->
+
+            <div class="map-header">
+
+                <div>
+
+                    <p class="section-label">
+                        LIVE NAVIGATION
+                    </p>
+
+                    <h2>
+                        Your Route
+                    </h2>
+
+                </div>
+
+
+                <!-- MAP CONTROLS -->
+
+                <div class="map-controls">
+
+                    <button id="locateButton">
+                        ◎ Locate Me
+                    </button>
+
+                    <button id="zoomIn">
+                        +
+                    </button>
+
+                    <button id="zoomOut">
+                        −
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- MAP -->
+
+            <div id="map"></div>
+
+
+            <!-- NAVIGATION CONTROLS -->
+
+            <div class="navigation-controls">
+
+                <button
+                    id="startNavigation"
+                    class="nav-btn start-btn"
+                >
+                    ▶ Start Navigation
+                </button>
+
+
+                <button
+                    id="simulateGpsLoss"
+                    class="nav-btn loss-btn"
+                >
+                    ⚠ Simulate GPS Loss
+                </button>
+
+
+                <button
+                    id="recoverGps"
+                    class="nav-btn recover-btn"
+                >
+                    ✓ Recover GPS
+                </button>
+                <button
+                    id="calibrateButton"
+                    class="nav-btn"
+>
+                    ⚙ Start Calibration
+                 </button>
+
+            </div>
+
+
+        </section>
+
+
+    </section>
+
+
+    <!-- =====================================
+         NAVIGATION PAGE
+    ====================================== -->
+
+    <section
+        id="navigation"
+        class="page"
+    >
+
+        <div class="content-card">
+
+            <p class="section-label">
+                LIVE POSITION
+            </p>
+
+            <h2>
+                Navigation
+            </h2>
+
+
+            <div class="data-grid">
+
+
+                <!-- LATITUDE -->
+
+                <div class="data-box">
+
+                    <span>
+                        LATITUDE
+                    </span>
+
+                    <strong id="latitude">
+                        Waiting...
+                    </strong>
+
+                </div>
+
+
+                <!-- LONGITUDE -->
+
+                <div class="data-box">
+
+                    <span>
+                        LONGITUDE
+                    </span>
+
+                    <strong id="longitude">
+                        Waiting...
+                    </strong>
+
+                </div>
+
+
+                <!-- SPEED -->
+
+                <div class="data-box">
+
+                    <span>
+                        SPEED
+                    </span>
+
+                    <strong>
+
+                        <b id="navigationSpeed">
+                            0
+                        </b>
+
+                        km/h
+
+                    </strong>
+
+                </div>
+
+
+                <!-- GPS ACCURACY -->
+
+                <div class="data-box">
+
+                    <span>
+                        GPS ACCURACY
+                    </span>
+
+                    <strong>
+
+                        <b id="accuracy">
+                            --
+                        </b>
+
+                        m
+
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- LOCATION STATUS -->
+
+            <div class="navigation-status">
+
+                <span class="status-dot"></span>
+
+                <div>
+
+                    <strong id="navigationStatus">
+                        Waiting for location
+                    </strong>
+
+                    <small>
+                        Live position from device
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================
+                 GPS COMPATIBILITY ELEMENTS
+                 Required by original gps.js
+            ================================== -->
+
+            <div style="display: none;">
+
+                <span id="speed">0</span>
+
+                <span id="status">
+                    Waiting
+                </span>
+
+                <span id="mode">
+                    GPS
+                </span>
+
+                <span id="lastUpdate">
+                    --
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+    <!-- =====================================
+         ALERTS PAGE
+    ====================================== -->
+
+    <section
+        id="alerts"
+        class="page"
+    >
+
+        <div class="content-card">
+
+            <p class="section-label">
+                SYSTEM MONITORING
+            </p>
+
+            <h2>
+                Alerts
+            </h2>
+
+
+            <div id="alertList">
+
+                <div class="alert-item">
+
+                    <div class="alert-icon">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            System Ready
+                        </strong>
+
+                        <small>
+                            Waiting for live location data.
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================
+         ANALYTICS PAGE
+    ====================================== -->
+
+    <section
+        id="analytics"
+        class="page"
+    >
+
+        <div class="content-card">
+
+            <p class="section-label">
+                NAVIGATION ANALYTICS
+            </p>
+
+            <h2>
+                Analytics
+            </h2>
+
+
+            <div class="data-grid">
+
+
+                <!-- CURRENT SPEED -->
+
+                <div class="data-box">
+
+                    <span>
+                        CURRENT SPEED
+                    </span>
+
+                    <strong>
+
+                        <b id="analyticsSpeed">
+                            0
+                        </b>
+
+                        km/h
+
+                    </strong>
+
+                </div>
+
+
+                <!-- MAXIMUM SPEED -->
+
+                <div class="data-box">
+
+                    <span>
+                        MAXIMUM SPEED
+                    </span>
+
+                    <strong>
+
+                        <b id="maxSpeed">
+                            0
+                        </b>
+
+                        km/h
+
+                    </strong>
+
+                </div>
+
+
+                <!-- DISTANCE -->
+
+                <div class="data-box">
+
+                    <span>
+                        DISTANCE TRAVELLED
+                    </span>
+
+                    <strong>
+
+                        <b id="analyticsDistance">
+                            0
+                        </b>
+
+                        km
+
+                    </strong>
+
+                </div>
+
+
+                <!-- ACCURACY -->
+
+                <div class="data-box">
+
+                    <span>
+                        LOCATION ACCURACY
+                    </span>
+
+                    <strong>
+
+                        <b id="analyticsAccuracy">
+                            --
+                        </b>
+
+                        m
+
+                    </strong>
+
+                </div>
+
+
+                <!-- LOCATION UPDATES -->
+
+                <div class="data-box">
+
+                    <span>
+                        LOCATION UPDATES
+                    </span>
+
+                    <strong id="updateCount">
+                        0
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================
+         SETTINGS PAGE
+    ====================================== -->
+
+    <section
+        id="settings"
+        class="page"
+    >
+
+        <div class="content-card">
+
+            <p class="section-label">
+                SYSTEM CONFIGURATION
+            </p>
+
+            <h2>
+                Settings
+            </h2>
+
+
+            <!-- DRIFTGUARD MODE -->
+
+            <div class="setting-row">
+
+                <div>
+
+                    <strong>
+                        DriftGuard Mode
+                    </strong>
+
+                    <small>
+                        Enable DriftGuard standby mode
+                        when GNSS becomes unavailable.
+                    </small>
+
+                </div>
+
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        id="driftToggle"
+                        checked
+                    >
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+
+            <!-- AUTO FOLLOW -->
+
+            <div class="setting-row">
+
+                <div>
+
+                    <strong>
+                        Auto Follow Location
+                    </strong>
+
+                    <small>
+                        Keep the map centered on
+                        your current location.
+                    </small>
+
+                </div>
+
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        id="followToggle"
+                        checked
+                    >
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+
+            <!-- =================================
+                 SENSOR COMPATIBILITY ELEMENTS
+                 Required by teammate sensor files
+            ================================== -->
+
+            <div style="display: none;">
+
+                <!-- SHARED SENSOR START BUTTON -->
+
+                <button id="startButton">
+                    Start Sensors
+                </button>
+
+
+                <!-- GYROSCOPE -->
+
+                <span id="alpha">
+                    0
+                </span>
+
+                <span id="beta">
+                    0
+                </span>
+
+                <span id="gamma">
+                    0
+                </span>
+
+
+                <!-- ACCELEROMETER -->
+
+                <span id="x">
+                    0
+                </span>
+
+                <span id="y">
+                    0
+                </span>
+
+                <span id="z">
+                    0
+                </span>
+
+                <span id="time">
+                    0
+                </span>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================
+         BOTTOM PANEL
+    ====================================== -->
+
+    <section class="bottom-panel">
+
+        <div>
+
+            <p class="section-label">
+                DRIFTGUARD AI
+            </p>
+
+            <h2>
+
+                Intelligent navigation,
+
+                <strong>
+                    without limits.
+                </strong>
+
+            </h2>
+
+            <small>
+                A smarter navigation interface designed
+                to keep you connected to your journey.
+            </small>
+
+        </div>
+
+
+        <!-- MAP DETAILS -->
+
+        <div class="map-details">
+
+            <div>
+
+                <span>
+                    MAP PROVIDER
+                </span>
+
+                <strong>
+                    OpenStreetMap
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    MAP ENGINE
+                </span>
+
+                <strong>
+                    Leaflet
+                </strong>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<!-- =========================================
+     LEAFLET JAVASCRIPT
+========================================== -->
+
+<script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
+
+
+
+
+
+<!-- =========================================
+     DRIFTGUARD JAVASCRIPT FILES
+========================================== -->
+<script src="js/calibration.js"></script>
+
+<script src="js/sensors.js"></script>
+
+<script src="js/DeadReckoning.js"></script>
+
+<script src="js/kalmanFilter.js"></script>
+
+<script src="js/gps.js"></script>
+
+<script type="module" src="js/gyroscope.js"></script>
+
+<script type="module" src="js/accelerometer.js"></script>
+
+<script src="js/navigation.js"></script>
+<script src="js/aiClient.js"></script>
+<script src="js/osrm.js"></script>
+
+<script src="js/app.js"></script>
+
+<script>
+    document.getElementById("calibrateButton").addEventListener("click", function() {
+        startCalibration();
+    });
+</script>
+
+</body>
+
+</html>

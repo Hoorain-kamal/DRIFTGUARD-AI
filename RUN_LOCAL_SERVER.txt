@@ -1,0 +1,13 @@
+DRIFTGUARD AI - LOCAL SERVER
+
+Windows:
+1. Open the ai folder.
+2. Double-click start_server.bat.
+3. Keep that window open while using the dashboard.
+
+Mac/Linux:
+1. Open a terminal in the ai folder.
+2. Run ./start_server.sh
+
+The dashboard works with its built-in local fallback even when this server is not running.
+For the real phone sensor demo, open the dashboard from HTTPS or localhost and grant motion/orientation permission.
